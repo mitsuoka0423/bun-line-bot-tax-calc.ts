@@ -8,7 +8,9 @@
     "hono": "^2.2.5"
   },
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "docker:build": "docker build . -t bun-line-bot-tax-calc.ts --progress=plain --platform linux/arm64/v8",
+    "docker:run": "docker run -p 3000:3000"
   },
-  "module": "src/index.js"
+  "module": "src/index.ts"
 }
