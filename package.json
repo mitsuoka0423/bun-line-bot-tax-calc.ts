@@ -5,6 +5,7 @@
     "bun-types": "latest"
   },
   "dependencies": {
+    "@line/bot-sdk": "^7.5.2",
     "hono": "^2.2.5"
   },
   "scripts": {
