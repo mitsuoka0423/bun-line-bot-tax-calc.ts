@@ -1,21 +1,26 @@
-# Hono with Bun runtime
+# bun-line-bot-tax-calc.ts
 
-## Getting Started
+## Requirement
 
-### Cloning the repo
+https://bun.sh/
 
-```sh
-bun create hono ./NAME_HERE
+## Install
+
+```bash
+bun install
 ```
 
-### Development
+## Run
 
+```bash
+bun start
 ```
-bun run start
+
+## Directory Overview
+
+```mermaid
+flowchart LR
+  index --> routes
+  routes --> services
+  services --> requests
 ```
-
-Open http://localhost:3000 with your browser to see the result.
-
-### For more information
-
-See <https://honojs.dev/>
