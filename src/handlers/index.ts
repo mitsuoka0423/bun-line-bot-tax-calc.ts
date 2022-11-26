@@ -1,11 +1,15 @@
 import { Context } from "hono";
-import { WebhookRequestBody } from '@line/bot-sdk';
+import { WebhookRequestBody } from "@line/bot-sdk";
 
-import { handleMessageEvent } from './messageEventHandler';
+import { handleMessageEvent } from "./messageEventHandler";
 
-export const handleWebhookEvent = async (context: Context): Promise<Response> => {
+export const handleWebhookEvent = async (
+  context: Context
+): Promise<Response> => {
+  console.log('[START] handleWebhookEvent');
+
   const webhookRequestBody: WebhookRequestBody = await context.req.json();
-  
+
   const promises = webhookRequestBody.events.map((event) => {
     switch (event.type) {
       case "message":
@@ -14,9 +18,17 @@ export const handleWebhookEvent = async (context: Context): Promise<Response> =>
         return Promise.resolve();
     }
   });
-  
-  return Promise
-    .all(promises)
-    .then(() => context.json({ message: "ok!" }));
-};
 
+  let response: Response;
+  try {
+    await Promise.all(promises);
+    response = context.json({ message: "ok!" });
+  } catch(e) {
+    console.error(e);
+    response = context.json({ message: "Internal Server Error" }, 500);
+  }
+
+  console.log('[END ] handleWebhookEvent');
+
+  return response;
+};

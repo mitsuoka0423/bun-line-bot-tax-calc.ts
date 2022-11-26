@@ -1,31 +1,47 @@
-import { Client } from "@line/bot-sdk";
-import { TaxIncludedPrice } from "../domains/TaxIncludedPrice";
+import { Message } from "@line/bot-sdk";
+import { PaymentAmount } from "../domains/PaymentAmount";
+import { SalesAmountWithSalesTax } from "../domains/SalesAmountWithSalesTax";
+import { SalesAmountWithoutSalesTax } from "../domains/SalesAmountWithoutSalesTax";
+import { SalesTaxAmount } from "../domains/SalesTaxAmount";
+import { WithholdingIncomeTaxAmount } from "../domains/WithholdingIncomeTaxAmount";
 
 interface TaxIncludedPriceServiceProps {
   price: number;
-  replyToken: string;
 }
-
-const client = new Client({
-  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.LINE_CHANNEL_SECRET,
-});
 
 export const taxIncludedPriceService = async ({
   price,
-  replyToken,
-}: TaxIncludedPriceServiceProps) => {
-  const taxIncludedPrice = new TaxIncludedPrice(price);
+}: TaxIncludedPriceServiceProps): Promise<Message> => {
+  console.log('[START] taxIncludedPriceService');
+  console.log({price});
 
-  const texts = [
-    `内税：${taxIncludedPrice.price}`,
-    `外税：${taxIncludedPrice.priceExcludedSalesTax}`,
-    `源泉徴収税：${taxIncludedPrice.priceExcludeWithholdingIncomeTax}`,
-    `振り込み金額：${taxIncludedPrice.priceExcludeWithholdingIncomeTax}`,
-  ];
+  const salesAmountWithSalesTax = new SalesAmountWithSalesTax(price);
+  const salesTaxAmount = new SalesTaxAmount(salesAmountWithSalesTax, 0.1);
+  const salesAmountWithoutSalesTax = new SalesAmountWithoutSalesTax(
+    salesAmountWithSalesTax,
+    salesTaxAmount
+  );
+  const withholdingIncomeTaxAmount = new WithholdingIncomeTaxAmount(
+    salesAmountWithoutSalesTax,
+    0.1021
+  );
+  const paymentAmount = new PaymentAmount(
+    salesAmountWithSalesTax,
+    withholdingIncomeTaxAmount
+  );
 
-  return await client.replyMessage(replyToken, {
+  const message: Message = {
     type: "text",
-    text: texts.join("\n"),
-  });
+    text: [
+      `内税：${salesAmountWithSalesTax.amount().amount()}`,
+      `外税：${salesAmountWithoutSalesTax.amount().amount()}`,
+      `源泉徴収税：${withholdingIncomeTaxAmount.amount().amount()}`,
+      `振り込み金額：${paymentAmount.amount().amount()}`,
+    ].join("\n"),
+  };
+
+  console.log({message});
+  console.log('[END  ] taxIncludedPriceService');
+
+  return message;
 };

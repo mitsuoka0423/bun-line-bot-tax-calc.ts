@@ -23,6 +23,7 @@ flowchart LR
   index --> routes
   routes --> handlers
   handlers --> services
+  handlers --> line-bot-sdk
   services --> domains
   services --> api
 ```
@@ -39,12 +40,10 @@ graph LR
 
 ```mermaid
 classDiagram
-  AmountInterface <|.. TaxAmountInterface
-  TaxRateInterface <|.. TaxAmountInterface
-  AmountInterface <|.. SalesAmountWithSalesTax
-  AmountInterface <|.. SalesAmountWithoutSalesTax
-  TaxAmountInterface <|.. SalesTaxAmount
-  TaxAmountInterface <|.. WithholdingIncomeTaxAmount
+  Amount <-- SalesAmountWithSalesTax
+  Amount <-- SalesAmountWithoutSalesTax
+  Amount <-- SalesTaxAmount
+  Amount <-- WithholdingIncomeTaxAmount
 
   PaymentAmount --> SalesAmountWithSalesTax
   PaymentAmount --> WithholdingIncomeTaxAmount
@@ -53,39 +52,34 @@ classDiagram
   SalesAmountWithoutSalesTax --> SalesTaxAmount
   SalesTaxAmount --> SalesAmountWithSalesTax
 
-  class AmountInterface {
-    public amount()
-  }
-  class TaxRateInterface {
-    public rate()
-  }
-  class TaxAmountInterface {
-    public amount()
-    public rate()
+  class Amount {
+    public amount(): number
+    public add(augend: Amount): Amount
+    subtract(subtrahend: Amount): Amount
+    multiply(multiplicand: Amount): Amount
+    divide(divisor: Amount): Amount
   }
   class PaymentAmount {
     public constructor(
       salesAmount: SalesAmount, 
       withholdingIncomeTaxAmount: WithholdingIncomeTaxAmount
     )
-    public amount()
+    public amount(): number
   }
   class SalesAmountWithSalesTax {
     public constructor(salesAmountWithSalesTax: number)
-    public amount()
+    public amount(): number
   }
   class SalesAmountWithoutSalesTax {
     public constructor(salesAmountWithSalesTax: SalesAmountWithSalesTax, salesTaxAmount: SalesTaxAmount)
-    public amount()
+    public amount(): number
   }
   class SalesTaxAmount {
     public constructor(salesAmountWithSalesTax: SalesAmountWithSalesTax)
-    public rate()
-    public amount()
+    public amount(): number
   }
   class WithholdingIncomeTaxAmount {
     public constructor(salesAmount: SalesAmount)
-    public rate()
-    public amount()
+    public amount(): number
   }
 ```

@@ -7,6 +7,12 @@ export const getCallback = async (context: Context): Promise<Response> => {
 };
 
 export const postCallback = async (context: Context): Promise<Response> => {
-  console.log(context);
-  return handleWebhookEvent(context);
+  console.log('[START] postCallback');
+  console.log({context});
+  const response = await handleWebhookEvent(context);
+  
+  console.log({response});
+  console.log('[END  ] postCallback');
+  
+  return response;
 };
