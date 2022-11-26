@@ -33,10 +33,10 @@ export const taxIncludedPriceService = async ({
   const message: Message = {
     type: "text",
     text: [
-      `内税：${salesAmountWithSalesTax.amount().amount()}`,
-      `外税：${salesAmountWithoutSalesTax.amount().amount()}`,
-      `源泉徴収税：${withholdingIncomeTaxAmount.amount().amount()}`,
-      `振り込み金額：${paymentAmount.amount().amount()}`,
+      `内税：${salesAmountWithSalesTax.amount.value}`,
+      `外税：${salesAmountWithoutSalesTax.amount.value}`,
+      `源泉徴収税：${withholdingIncomeTaxAmount.amount.value}`,
+      `振り込み金額：${paymentAmount.amount.value}`,
     ].join("\n"),
   };
 

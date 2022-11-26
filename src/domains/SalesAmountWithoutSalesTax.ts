@@ -3,8 +3,8 @@ import { SalesAmountWithSalesTax } from "./SalesAmountWithSalesTax";
 import { SalesTaxAmount } from "./SalesTaxAmount";
 
 export class SalesAmountWithoutSalesTax {
-  private salesAmountWithSalesTax: SalesAmountWithSalesTax;
-  private salesTaxAmount: SalesTaxAmount;
+  private readonly salesAmountWithSalesTax: SalesAmountWithSalesTax;
+  private readonly salesTaxAmount: SalesTaxAmount;
 
   constructor(
     salesAmountWithSalesTax: SalesAmountWithSalesTax,
@@ -14,7 +14,7 @@ export class SalesAmountWithoutSalesTax {
     this.salesTaxAmount = salesTaxAmount;
   }
   
-  amount(): Amount {
-    return this.salesAmountWithSalesTax.amount().subtract(this.salesTaxAmount.amount());
+  get amount(): Amount {
+    return this.salesAmountWithSalesTax.amount.subtract(this.salesTaxAmount.amount);
   }
 }

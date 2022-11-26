@@ -1,13 +1,13 @@
 import { Amount } from "./Amount";
 
 export class SalesAmountWithSalesTax {
-  private salesAmountWithSalesTax: Amount;
+  private readonly salesAmountWithSalesTax: Amount;
 
   constructor(salesAmountWithSalesTax: number) {
     this.salesAmountWithSalesTax = new Amount(salesAmountWithSalesTax);
   }
 
-  amount(): Amount {
+  get amount(): Amount {
     return this.salesAmountWithSalesTax;
   }
 }
