@@ -2,6 +2,10 @@ export class Amount {
   protected _amount: number;
   
   constructor(amount: number) {
+    if (amount <= 0) {
+      throw new Error("1以上の値を指定してください");
+    }
+
     this._amount = amount;
   }
 
@@ -14,11 +18,5 @@ export class Amount {
   }
   subtract(subtrahend: Amount): Amount {
     return new Amount(this.amount() - subtrahend.amount());
-  }
-  multiply(multiplicand: Amount): Amount {
-    return new Amount(this.amount() * multiplicand.amount());
-  }
-  divide(divisor: Amount): Amount {
-    return new Amount(this.amount() / divisor.amount());
   }
 };
