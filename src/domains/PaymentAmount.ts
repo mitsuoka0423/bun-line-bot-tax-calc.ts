@@ -15,6 +15,6 @@ export class PaymentAmount {
   }
 
   get amount(): Amount {
-    return this.salesAmountWithSalesTax.amount.subtract(this.withholdingIncomeTaxAmount.amount);
+    return this.salesAmountWithSalesTax.subtract(this.withholdingIncomeTaxAmount.amount);
   }
 }

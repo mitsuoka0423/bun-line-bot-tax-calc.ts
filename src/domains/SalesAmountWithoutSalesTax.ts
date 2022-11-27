@@ -15,6 +15,6 @@ export class SalesAmountWithoutSalesTax {
   }
   
   get amount(): Amount {
-    return this.salesAmountWithSalesTax.amount.subtract(this.salesTaxAmount.amount);
+    return this.salesAmountWithSalesTax.subtract(this.salesTaxAmount.amount);
   }
 }
