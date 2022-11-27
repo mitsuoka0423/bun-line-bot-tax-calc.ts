@@ -2,19 +2,11 @@ import { Amount } from "./Amount";
 import { SalesAmountWithSalesTax } from "./SalesAmountWithSalesTax";
 import { WithholdingIncomeTaxAmount } from "./WithholdingIncomeTaxAmount";
 
-export class PaymentAmount {
-  private readonly salesAmountWithSalesTax: SalesAmountWithSalesTax;
-  private readonly withholdingIncomeTaxAmount: WithholdingIncomeTaxAmount;
-
+export class PaymentAmount extends Amount {
   constructor(
     salesAmountWithSalesTax: SalesAmountWithSalesTax,
     withholdingIncomeTaxAmount: WithholdingIncomeTaxAmount
   ) {
-    this.salesAmountWithSalesTax = salesAmountWithSalesTax;
-    this.withholdingIncomeTaxAmount = withholdingIncomeTaxAmount;
-  }
-
-  get amount(): Amount {
-    return this.salesAmountWithSalesTax.subtract(this.withholdingIncomeTaxAmount.amount);
+    super(salesAmountWithSalesTax.subtract(withholdingIncomeTaxAmount).value);
   }
 }
