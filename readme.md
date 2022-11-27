@@ -29,7 +29,7 @@ flowchart LR
 ```
 
 ```mermaid
-graph LR
+graph
   報酬額 --> 売上内税額
   報酬額 --> 源泉徴収税額
   売上額外税 --> 売上内税額
@@ -40,10 +40,11 @@ graph LR
 
 ```mermaid
 classDiagram
-  Amount <-- SalesAmountWithSalesTax
-  Amount <-- SalesAmountWithoutSalesTax
-  Amount <-- SalesTaxAmount
-  Amount <-- WithholdingIncomeTaxAmount
+  Amount <|.. SalesAmountWithSalesTax
+  Amount <|.. SalesAmountWithoutSalesTax
+  Amount <|.. SalesTaxAmount
+  Amount <|.. WithholdingIncomeTaxAmount
+  Amount <|.. PaymentAmount
 
   PaymentAmount --> SalesAmountWithSalesTax
   PaymentAmount --> WithholdingIncomeTaxAmount
@@ -61,25 +62,20 @@ classDiagram
   }
   class PaymentAmount {
     public constructor(
-      salesAmount: SalesAmount, 
+      salesAmountWithSalesTax: SalesAmountWithSalesTax, 
       withholdingIncomeTaxAmount: WithholdingIncomeTaxAmount
     )
-    public amount(): number
   }
   class SalesAmountWithSalesTax {
     public constructor(salesAmountWithSalesTax: number)
-    public amount(): number
   }
   class SalesAmountWithoutSalesTax {
     public constructor(salesAmountWithSalesTax: SalesAmountWithSalesTax, salesTaxAmount: SalesTaxAmount)
-    public amount(): number
   }
   class SalesTaxAmount {
     public constructor(salesAmountWithSalesTax: SalesAmountWithSalesTax)
-    public amount(): number
   }
   class WithholdingIncomeTaxAmount {
     public constructor(salesAmount: SalesAmount)
-    public amount(): number
   }
 ```
