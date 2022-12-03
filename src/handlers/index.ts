@@ -1,17 +1,8 @@
 import { Context } from "hono";
-import {
-  WebhookRequestBody,
-  Client,
-  Message,
-  WebhookEvent,
-} from "@line/bot-sdk";
+import { WebhookRequestBody, Message, WebhookEvent } from "@line/bot-sdk";
 
 import { handleMessageEvent } from "./messageEventHandler";
-
-// const line = new Client({
-//   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-//   channelSecret: process.env.LINE_CHANNEL_SECRET,
-// });
+import { postReplyMessage } from "../api/MessagingApi";
 
 export const handleWebhookEvent = async (
   context: Context
@@ -19,22 +10,26 @@ export const handleWebhookEvent = async (
   console.log("[START] handleWebhookEvent");
   console.log({ context });
 
-  const webhookRequestBody: WebhookRequestBody = await context.req.json();
-
-  const promises = webhookRequestBody.events.map(
-    async (event: WebhookEvent) => {
-      let message: Message;
-      if (event.type === "message") {
-        message = await handleMessageEvent(event);
-        // return await line.replyMessage(event.replyToken, message);
-        return Promise.resolve();
-      }
-      return Promise.resolve();
-    }
-  );
-
   let response: Response;
   try {
+    const webhookRequestBody: WebhookRequestBody = await context.req.json();
+
+    const promises = webhookRequestBody.events.map(
+      async (event: WebhookEvent) => {
+        let message: Message;
+        if (event.type === "message") {
+          message = await handleMessageEvent(event);
+
+          return postReplyMessage({
+            replyToken: event.replyToken,
+            messages: [message],
+            channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+          });
+        }
+        return Promise.resolve();
+      }
+    );
+
     await Promise.all(promises);
     response = context.json({ message: "ok!" });
   } catch (e) {
@@ -42,6 +37,7 @@ export const handleWebhookEvent = async (
     response = context.json({ message: "Internal Server Error" }, 500);
   }
 
+  console.log({ response });
   console.log("[END ] handleWebhookEvent");
 
   return response;

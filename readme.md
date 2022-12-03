@@ -23,7 +23,7 @@ flowchart LR
   index --> routes
   routes --> handlers
   handlers --> services
-  handlers --> line-bot-sdk
+  handlers --> api
   services --> domains
   services --> api
 ```
