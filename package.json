@@ -10,8 +10,12 @@
   },
   "scripts": {
     "start": "bun run src/index.ts",
-    "docker:build": "docker build . -t bun-line-bot-tax-calc.ts --progress=plain --platform linux/arm64/v8",
-    "docker:run": "docker run -p 3000:3000"
+    "docker:build": "docker build . --platform linux/amd64 -t bun-line-bot-tax-calc",
+    "predocker:run": "bun run docker:build && docker rm bun-line-bot-tax-calc",
+    "docker:run": "docker run --platform linux/x86_64 --name bun-line-bot-tax-calc -p 3000:3000 bun-line-bot-tax-calc",
+    "predocker:sh": "bun run docker:build && docker rm -f bun-line-bot-tax-calc",
+    "docker:sh": "docker run --platform linux/x86_64 --name bun-line-bot-tax-calc -it bun-line-bot-tax-calc /bin/sh",
+    "docker:kill": "docker kill $(docker ps | peco | awk '{ print $1 }')"
   },
   "module": "src/index.ts"
 }
