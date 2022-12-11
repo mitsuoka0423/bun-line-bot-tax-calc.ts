@@ -24,6 +24,9 @@ export const postReplyMessage = async ({
       replyToken,
       messages,
     }),
+  }).catch((e) => {
+    console.log(e);
+    throw e;
   });
 
   console.log({ response });
