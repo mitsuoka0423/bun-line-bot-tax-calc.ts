@@ -1,6 +1,10 @@
 import { Hono } from "hono";
-import { getCallback, postCallback } from "./routes";
 import { prettyJSON } from 'hono/pretty-json';
+import * as dotenv from "dotenv";
+
+import { getCallback, postCallback } from "./routes";
+
+dotenv.config();
 
 const channelAccessToken = process.env.CHANNEL_ACCESS_TOKEN;
 if (!channelAccessToken)

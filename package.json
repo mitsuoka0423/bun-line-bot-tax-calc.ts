@@ -2,7 +2,8 @@
   "version": "1.0.69",
   "name": "bun-line-bot-tax-calc.ts",
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "dotenv": "^16.0.3"
   },
   "dependencies": {
     "@line/bot-sdk": "^7.5.2",
