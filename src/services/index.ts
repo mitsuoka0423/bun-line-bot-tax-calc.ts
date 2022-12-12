@@ -1,3 +1,3 @@
-import { taxIncludedPriceService } from './taxIncludedPriceService';
+import { payAmountCalculatorService } from './payAmountCalculatorService';
 
-export { taxIncludedPriceService };
+export { payAmountCalculatorService };

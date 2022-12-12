@@ -9,10 +9,10 @@ interface TaxIncludedPriceServiceProps {
   price: number;
 }
 
-export const taxIncludedPriceService = async ({
+export const payAmountCalculatorService = async ({
   price,
 }: TaxIncludedPriceServiceProps): Promise<Message[]> => {
-  console.log("[START] taxIncludedPriceService");
+  console.log("[START] payAmountCalculatorService");
   console.log({ price });
 
   const salesAmountWithSalesTax = new SalesAmountWithSalesTax(price);
@@ -42,7 +42,7 @@ export const taxIncludedPriceService = async ({
   }];
 
   console.log({ message: messages });
-  console.log("[END  ] taxIncludedPriceService");
+  console.log("[END  ] payAmountCalculatorService");
 
   return messages;
 };

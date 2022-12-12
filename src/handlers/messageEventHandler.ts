@@ -1,6 +1,6 @@
 import { MessageEvent, TextEventMessage, Message } from "@line/bot-sdk";
 
-import { taxIncludedPriceService } from "../services";
+import { payAmountCalculatorService } from "../services";
 
 export const handleMessageEvent = async (
   event: MessageEvent
@@ -15,7 +15,7 @@ export const handleMessageEvent = async (
     // メッセージの内容によって、サービスを振り分ける
     const parsed = Number.parseInt(textEventMessage.text);
     if (Number.isSafeInteger(parsed)) {
-      messages = await taxIncludedPriceService({
+      messages = await payAmountCalculatorService({
         price: Number(textEventMessage.text),
       });
     }
