@@ -5,7 +5,6 @@ COPY bun.lockb bun.lockb
 COPY . .
 RUN curl -fsSL https://bun.sh/install | bash 
 ENV PATH $PATH:/root/.bun/bin
-RUN bun i hono
-RUN bun i @line/bot-sdk
+RUN bun i
 EXPOSE 3000
 ENTRYPOINT ["bun", "start"]
