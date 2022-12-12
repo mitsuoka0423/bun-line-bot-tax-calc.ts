@@ -16,13 +16,13 @@ export const handleWebhookEvent = async (
 
     const promises = webhookRequestBody.events.map(
       async (event: WebhookEvent) => {
-        let message: Message;
+        let messages: Message[];
         if (event.type === "message") {
-          message = await handleMessageEvent(event);
+          messages = await handleMessageEvent(event);
 
           return postReplyMessage({
             replyToken: event.replyToken,
-            messages: [message],
+            messages,
             channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
           });
         }

@@ -11,7 +11,7 @@ interface TaxIncludedPriceServiceProps {
 
 export const taxIncludedPriceService = async ({
   price,
-}: TaxIncludedPriceServiceProps): Promise<Message> => {
+}: TaxIncludedPriceServiceProps): Promise<Message[]> => {
   console.log("[START] taxIncludedPriceService");
   console.log({ price });
 
@@ -30,19 +30,19 @@ export const taxIncludedPriceService = async ({
     withholdingIncomeTaxAmount
   );
 
-  const message: Message = {
+  const messages: Message[] = [{
     type: "text",
     text: [
-      `内税：${salesAmountWithSalesTax.value}`,
-      `消費税：${salesTaxAmount.value}`,
-      `外税：${salesAmountWithoutSalesTax.value}`,
+      `内税　　　：${salesAmountWithSalesTax.value}`,
+      `消費税　　：${salesTaxAmount.value}`,
+      `外税　　　：${salesAmountWithoutSalesTax.value}`,
       `源泉徴収税：${withholdingIncomeTaxAmount.value}`,
-      `振り込み金額：${paymentAmount.value}`,
+      `振込金額　：${paymentAmount.value}`,
     ].join("\n"),
-  };
+  }];
 
-  console.log({ message });
+  console.log({ message: messages });
   console.log("[END  ] taxIncludedPriceService");
 
-  return message;
+  return messages;
 };
