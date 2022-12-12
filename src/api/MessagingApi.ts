@@ -12,7 +12,7 @@ export const postReplyMessage = async ({
   messages,
 }: ReplyMessageProps): Promise<Response> => {
   console.log("[START] replyMessage");
-  console.log({ replyToken, channelAccessToken, messages });
+  console.log({ replyToken, messages });
 
   const response = await fetch("https://api.line.me/v2/bot/message/reply", {
     method: "POST",
