@@ -1,36 +1,35 @@
 import { Message } from "@line/bot-sdk";
 
 interface ReplyMessageProps {
-  replyToken: string;
-  messages: Message[];
-  channelAccessToken: string;
+	replyToken: string;
+	messages: Message[];
+}
+
+const channelAccessToken = process.env.CHANNEL_ACCESS_TOKEN;
+if (!channelAccessToken) {
+	throw new Error("CHANNEL_ACCESS_TOKEN is required.");
 }
 
 export const postReplyMessage = async ({
-  replyToken,
-  channelAccessToken,
-  messages,
-}: ReplyMessageProps): Promise<Response> => {
-  console.log("[START] replyMessage");
-  console.log({ replyToken, messages });
+	replyToken,
+	messages,
+}: ReplyMessageProps) => {
+	console.log("[START] replyMessage");
+	console.log({ replyToken, messages });
 
-  const response = await fetch("https://api.line.me/v2/bot/message/reply", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${channelAccessToken}`,
-    },
-    body: JSON.stringify({
-      replyToken,
-      messages,
-    }),
-  }).catch((e) => {
-    console.log(e);
-    throw e;
-  });
+	await fetch("https://api.line.me/v2/bot/message/reply", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${channelAccessToken}`,
+		},
+		body: JSON.stringify({
+			replyToken,
+			messages,
+		}),
+	}).catch((e) => {
+		console.log(e);
+	});
 
-  console.log({ response });
-  console.log("[END  ] replyMessage");
-
-  return response;
+	console.log("[END  ] replyMessage");
 };
