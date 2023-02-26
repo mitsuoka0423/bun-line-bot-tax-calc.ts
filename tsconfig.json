@@ -6,5 +6,6 @@
       "moduleResolution": "node",
       // "bun-types" is the important part
       "types": ["bun-types"]
-    }
+    },
+    "include": ["src/**/*"]
   }
