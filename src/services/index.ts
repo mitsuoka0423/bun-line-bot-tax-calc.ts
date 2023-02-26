@@ -1,3 +1,3 @@
-import { payAmountCalculatorService } from './payAmountCalculatorService';
+import { payAmountCalculatorService } from "./payAmountCalculatorService";
 
 export { payAmountCalculatorService };
