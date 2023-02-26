@@ -14,7 +14,7 @@ const channelSecret = process.env.CHANNEL_SECRET;
 if (!channelSecret)
 	throw new Error("チャンネルシークレットを入力してください。");
 
-const port = parseInt(process.env.PORT) || 3000;
+const port = parseInt(process.env.PORT || "3000");
 
 const app = new Hono();
 
