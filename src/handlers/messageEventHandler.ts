@@ -13,11 +13,17 @@ export const handleMessageEvent = async (
     const textEventMessage = event.message as TextEventMessage;
 
     // メッセージの内容によって、サービスを振り分ける
-    const parsed = Number.parseInt(textEventMessage.text);
-    if (Number.isSafeInteger(parsed)) {
+    if (Number.isSafeInteger(textEventMessage.text)) {
       messages = await payAmountCalculatorService({
         price: Number(textEventMessage.text),
       });
+    } else {
+      messages = [
+        {
+          type: "text",
+          text: "対応していないメッセージです。",
+        },
+      ];
     }
   }
 
